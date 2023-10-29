@@ -1,0 +1,346 @@
+openapi: 3.0.0
+info:
+  title: Occupancy PostMan
+  version: 1.0.0
+servers:
+  - url: http://solutions.dgw.firstam.io
+paths:
+  /v1/occupancy/order:
+    post:
+      summary: ORDER JSON
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                RequestorID: 123abcde
+                Persons:
+                  - SSN: '900000001'
+                    Name:
+                      Last: ZZAAQQCC
+                      First: Susaz
+                      Middle: ''
+                    Address:
+                      HousingType: Rent
+                      StreetAddress1: 9041 Stacie Ln 12
+                      City: Anaheim
+                      State: CA
+                      ZipCode: '92804'
+                SubjectAddress:
+                  StreetAddress1: 777 Happy Valley Rd
+                  City: Prescott
+                  State: AZ
+                  ZipCode: '86305'
+                LoanData:
+                  LoanPurpose: Purchase
+                  Occupancy: OwnerOccupied
+                  ApplicationDate:
+                    Day: '01'
+                    Month: '07'
+                    Year: '2022'
+                MERSInfo:
+                  OrganizationIdentifier: '9999999'
+                  OrganizationPassword: test123
+                  RequestingParty:
+                    Identifier: '9999999'
+                    Name: WATERSTONE MORTGAGE CORPORATION (FRAUDGUARD)
+                IncludeAnalytics: true
+      parameters:
+        - name: mockproperty
+          in: header
+          schema:
+            type: boolean
+          example: 'true'
+        - name: mockidentity
+          in: header
+          schema:
+            type: boolean
+          example: 'true'
+        - name: mockmers
+          in: header
+          schema:
+            type: boolean
+          example: 'true'
+        - name: x-app-id
+          in: header
+          schema:
+            type: string
+          example: 37193b8d
+        - name: x-app-key
+          in: header
+          schema:
+            type: string
+          example: 47ca4945286f5b0e976da58d21538cf8
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+        '400':
+          description: Invalid transaction ID supplied
+        '404':
+          description: Transaction not found
+        '405':
+          description: Validation exception
+  /v1/occupancy/report:
+    get:
+      summary: REPORT JSON
+      parameters:
+        - name: x-app-id
+          in: header
+          schema:
+            type: string
+          example: 37193b8d
+        - name: x-app-key
+          in: header
+          schema:
+            type: string
+          example: 47ca4945286f5b0e976da58d21538cf8
+        - name: transactionID
+          in: query
+          schema:
+            type: string
+          example: 59ade87a-a9df-4657-a6d6-27d448281c3b
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+        '400':
+          description: Invalid transaction ID supplied
+        '404':
+          description: Transaction not found
+        '405':
+          description: Validation exception
+  /v1/occupancy/order/:
+    post:
+      summary: ORDER XML
+      requestBody:
+        content:
+          application/xml:
+            schema:
+              type: string
+              $ref: '#/components/schemas/OccupancyServiceRequest'
+              example: >-
+                "<OccupancyServiceRequest>
+                    <RequestorID>123abcde</RequestorID>
+                     <Persons>
+                      <Person>
+                        <SSN>900000001</SSN>
+                        <Name>
+                          <Last>ZZAAQQCC</Last>
+                          <First>Susaz</First>
+                          <Middle></Middle>
+                        </Name>
+                        <Address>
+                          <HousingType>Rent</HousingType>
+                          <StreetAddress1>9041 Stacie Ln 12</StreetAddress1>
+                          <City>Anaheim</City>
+                          <State>CA</State>
+                          <ZipCode>92804</ZipCode>
+                        </Address>
+                      </Person>
+                    </Persons>
+                    <SubjectAddress>
+                      <StreetAddress1>777 Happy Valley Rd</StreetAddress1>
+                      <City>Prescott</City>
+                      <State>AZ</State>
+                      <ZipCode>86305</ZipCode>
+                    </SubjectAddress>
+                    <LoanData>
+                      <LoanPurpose>Purchase</LoanPurpose>
+                      <Occupancy>OwnerOccupied</Occupancy>
+                      <ApplicationDate>
+                        <Day>01</Day>
+                        <Month>07</Month>
+                        <Year>2022</Year>
+                      </ApplicationDate>
+                    </LoanData>
+                    <MERSInfo>
+                      <OrganizationIdentifier>9999999</OrganizationIdentifier>
+                      <OrganizationPassword>test123</OrganizationPassword>
+                      <RequestingParty>
+                        <Identifier>9999999</Identifier>
+                        <Name>WATERSTONE MORTGAGE CORPORATION (FRAUDGUARD)</Name>
+                      </RequestingParty>
+                    </MERSInfo>
+                    <IncludeAnalytics>false</IncludeAnalytics>
+                  </OccupancyServiceRequest>"
+      parameters:
+        - name: mockproperty
+          in: header
+          schema:
+            type: boolean
+          example: 'true'
+        - name: mockidentity
+          in: header
+          schema:
+            type: boolean
+          example: 'true'
+        - name: mockmers
+          in: header
+          schema:
+            type: boolean
+          example: 'true'
+        - name: x-app-id
+          in: header
+          schema:
+            type: string
+          example: 37193b8d
+        - name: x-app-key
+          in: header
+          schema:
+            type: string
+          example: 47ca4945286f5b0e976da58d21538cf8
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/xml: {}
+        '400':
+          description: Invalid transaction ID supplied
+        '404':
+          description: Transaction not found
+        '405':
+          description: Validation exception
+  /v1/occupancy/report/:
+    get:
+      summary: REPORT XML
+      parameters:
+        - name: Accept
+          in: header
+          schema:
+            type: string
+          example: application/xml
+        - name: x-app-id
+          in: header
+          schema:
+            type: string
+          example: 37193b8d
+        - name: x-app-key
+          in: header
+          schema:
+            type: string
+          example: 47ca4945286f5b0e976da58d21538cf8
+        - name: transactionID
+          in: query
+          schema:
+            type: string
+          example: caba6704-281b-43b0-a30c-1087be21d1eb
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/xml: {}
+        '400':
+          description: Invalid transaction ID supplied
+        '404':
+          description: Transaction not found
+        '405':
+          description: Validation exception
+components:
+  schemas:
+    OccupancyServiceRequest: 
+      type: object
+      properties:
+        RequestorID: 
+          type: "string"
+          example: 123abcde
+        Persons: 
+          type: object
+          properties:
+            Person: 
+              type: object
+              properties:
+                SSN: 
+                  type: "string"
+                  example: 900000001
+                Name: 
+                  type: object
+                  properties:
+                    Last: 
+                      type: "string"
+                      example: ZZAAQQCC
+                    First: 
+                      type: "string"
+                      example: Susaz
+                    Middle: 
+                      type: "string"
+                      example: m
+                Address: 
+                  type: object
+                  properties:
+                    HousingType: 
+                      type: "string"
+                      example: Rent
+                    StreetAddress1: 
+                      type: "string"
+                      example: 9041 Stacie Ln 12
+                    City: 
+                      type: "string"
+                      example: Anaheim
+                    State: 
+                      type: "string"
+                      example: CA
+                    ZipCode: 
+                      type: "string"
+                      example: 92804
+        SubjectAddress: 
+          type: object
+          properties:
+            StreetAddress1: 
+              type: "string"
+              example: 777 Happy Valley Rd
+            City: 
+              type: "string"
+              example: Prescott
+            State: 
+              type: "string"
+              example: AZ
+            ZipCode: 
+              type: "string"
+              example: 86305
+        LoanData: 
+          type: object
+          properties:
+            LoanPurpose: 
+              type: "string"
+              example: Purchase
+            Occupancy: 
+              type: "string"
+              example: OwnerOccupied
+            ApplicationDate: 
+              type: object
+              properties:
+                Day: 
+                  type: "string"
+                  example: 01
+                Month: 
+                  type: "string"
+                  example: 07
+                Year: 
+                  type: "string"
+                  example: 2022
+        MERSInfo: 
+          type: object
+          properties:
+            OrganizationIdentifier: 
+              type: "string"
+              example: 9999999
+            OrganizationPassword: 
+              type: "string"
+              example: test123
+            RequestingParty: 
+              type: object
+              properties:
+                Identifier: 
+                  type: "string"
+                  example: 9999999
+                Name: 
+                  type: "string"
+                  example: WATERSTONE MORTGAGE CORPORATION (FRAUDGUARD)
+        IncludeAnalytics: 
+                  type: "string"
+                  example: false
+           
